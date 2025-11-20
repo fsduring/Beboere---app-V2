@@ -1,0 +1,62 @@
+:root {
+  --background: #f8f9fa;
+  --text: #111;
+  --primary: #1f6feb;
+  --border: #d0d7de;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--background);
+  color: var(--text);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+main {
+  padding: 24px;
+}
+
+nav a {
+  margin-right: 12px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: 8px;
+  border: 1px solid var(--border);
+}
+
+.card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.flex {
+  display: flex;
+  gap: 12px;
+}
+
+.senior {
+  font-size: 1.2rem;
+}
