@@ -4,7 +4,9 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  // Default placeholder allows `prisma generate` to run during installs when Vercel envs are not yet injected.
+  // The real connection string still needs to be provided at build/runtime via DATABASE_URL or POSTGRES_PRISMA_URL.
+  url      = env("DATABASE_URL", "postgresql://placeholder:placeholder@localhost:5432/placeholder")
 }
 
 enum Role {

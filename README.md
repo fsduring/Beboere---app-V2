@@ -13,7 +13,7 @@ Copy `.env.example` to `.env` and update the values:
 cp .env.example .env
 ```
 Required keys:
-- `DATABASE_URL`: PostgreSQL connection string (works with Vercel Postgres, Neon, Supabase, etc.)
+- `DATABASE_URL`: PostgreSQL connection string (works with Vercel Postgres, Neon, Supabase, etc.). A placeholder is baked into the Prisma schema so `npm install` can run without it, but **a real URL is still required for migrations and runtime**.
 - `NEXTAUTH_SECRET`: Random string for session signing
 - `NEXTAUTH_URL`: Your site URL (e.g. `http://localhost:3000` or `https://<your-vercel-domain>`)
 
@@ -35,7 +35,8 @@ npm run dev
 ## Deploy to Vercel
 1. Connect the repo to Vercel.
 2. Add the env vars `DATABASE_URL`, `NEXTAUTH_SECRET`, `NEXTAUTH_URL` in the Vercel dashboard. If you use **Vercel Postgres**, you can skip defining `DATABASE_URL` manually—the build script automatically falls back to `POSTGRES_PRISMA_URL` provided by the integration.
-3. Vercel will run the custom build command from `vercel.json`: `npm run vercel-build` (which applies migrations, seeds the DB, and builds the app).
+3. `npm install` will now succeed even if the DB env is missing (thanks to the placeholder), but the Vercel build step **still requires** a real Postgres URL. Provide `DATABASE_URL` or rely on `POSTGRES_PRISMA_URL` from the Vercel Postgres integration before deploying.
+4. Vercel will run the custom build command from `vercel.json`: `npm run vercel-build` (which applies migrations, seeds the DB, and builds the app).
 4. Ensure your database user can run DDL for `prisma migrate deploy`.
 5. After deploy, login with the seeded accounts below.
 
