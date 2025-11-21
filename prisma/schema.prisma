@@ -47,10 +47,13 @@ model User {
   profile      Profile?
   tenants      TenantUnit[]
   messages     Message[] @relation("MessageCreator")
+  documents    Document[]
+  photos       Photo[]
   comments     Comment[]
   reads        MessageRead[]
   auditLogs    AuditLog[]
   resetTokens  PasswordResetToken[]
+  exportJobs   ExportJob[]
 }
 
 model Profile {
@@ -105,18 +108,6 @@ model TenantUnit {
   @@unique([userId, unitId])
 }
 
-model Message {
-  id          String       @id @default(cuid())
-  title       String
-  content     String
-  createdAt   DateTime     @default(now())
-  createdBy   User         @relation("MessageCreator", fields: [createdById], references: [id])
-  createdById String
-  phase       Phase?       @relation("MessagePhase", fields: [phaseId], references: [id])
-  phaseId     String?
-  targets     MessageTarget[]
-  reads       MessageRead[]
-}
 
 model MessageTarget {
   id        String  @id @default(cuid())
@@ -147,6 +138,7 @@ model Document {
   createdAt   DateTime          @default(now())
   createdBy   User              @relation(fields: [createdById], references: [id])
   createdById String
+  comments    Comment[]
 }
 
 model DocumentVersion {
@@ -169,6 +161,7 @@ model Photo {
   createdAt   DateTime @default(now())
   createdBy   User     @relation(fields: [createdById], references: [id])
   createdById String
+  comments    Comment[]
 }
 
 model Comment {
@@ -201,6 +194,20 @@ model ExportJob {
   status     ExportStatus @default(PENDING)
   fileKey    String?
   createdAt  DateTime     @default(now())
+}
+
+model Message {
+  id          String       @id @default(cuid())
+  title       String
+  content     String
+  createdAt   DateTime     @default(now())
+  createdBy   User         @relation("MessageCreator", fields: [createdById], references: [id])
+  createdById String
+  phase       Phase?       @relation("MessagePhase", fields: [phaseId], references: [id])
+  phaseId     String?
+  targets     MessageTarget[]
+  reads       MessageRead[]
+  comments    Comment[]
 }
 
 model PasswordResetToken {
